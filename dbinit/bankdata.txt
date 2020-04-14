@@ -1,0 +1,6 @@
+delete from bank;
+insert into bank values('3000000001', 'RBC','Royal Bank of Canada', 'Toronto', 'Canada');
+insert into bank values('3000000002', 'HSBC','Hongkong and Shanghai Banking Corporation', 'Canary Wharf', 'England');
+insert into bank values('3000000003', 'WF','Wells Fargo', 'San Francisco', 'USA');
+insert into bank values('3000000004', 'BDB','Banco Do Brasil', 'Brasilia', 'Brazil');
+insert into bank values('3000000005', 'NB','Norinchukin Bank', 'Tokyo', 'Japan');

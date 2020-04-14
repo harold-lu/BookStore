@@ -1,0 +1,31 @@
+html
+  head
+    title LIB Purchases
+
+
+body
+  a(href='http://localhost:3000/browse') Browse
+  h1 Welcome to Look Inna Book
+
+  if(!user)
+    p="Please login or register to proceed!"
+    br
+    a(href='http://localhost:3000/login') Login
+    br
+    br
+    a(href='http://localhost:3000/register') Register
+  else
+    p="Logged in as: " + user
+    a(href='http://localhost:3000/logout') Logout
+    br
+    if(q.length < 1)
+      p="You have not made any purchases yet!"
+      a(href='http://localhost:3000/browse') Browse Books
+    else
+      h3="Past purchases:"
+      if(q[0].length == 1)
+        a(href='http://localhost:3000/purchase/'+q[0].pid)="Purchase: " + q[0].pid
+      else
+        each p in q
+          a(href='http://localhost:3000/purchase/'+p.pid)="Purchase: " + p.pid
+          br

@@ -1,0 +1,50 @@
+html
+  head
+    title LIB ADMIN Add Book
+
+
+body
+  h1 Welcome to Look Inna Book
+  h2 Add Book
+
+  if(!admin)
+    p="Please login with administrator credentials to proceed."
+    br
+    a(href='http://localhost:3000/admin') Login
+  else
+    p="Logged in as ADMIN"
+    a(href='http://localhost:3000/adminlogout') Logout
+    br
+    form(action="/addbook", method="post")
+      h3 Add Book
+      p="ISBN: "
+        input(type="text", name="isbn", required)
+      p="Title: "
+        input(type="text", name="title", required)
+      p="Author: "
+        input(type="text", name="author", required)
+      p="Publisher: "
+        input(type="text", name="publisher", required)
+      p="Subtitle: "
+        input(type="text", name="subtitle")
+      p="Genre: "
+        input(type="text", name="genre", required)
+      p="Description: "
+        input(type="text", name="description")
+      p="Rating: "
+        input(type="text", name="rating")
+      p="Number of pages: "
+        input(type="text", name="num_pages", required)
+      p="Language: "
+        input(type="text", name="lang", required)
+      p="Price: "
+        input(type="text", name="price", required)
+      p="Percentage to Publisher: "
+        input(type="text", name="percent_pub", required)
+      p="Stock: "
+        input(type="text", name="stock", required)
+      button(type="submit")="Add book"
+    a(href='http://localhost:3000/deletebook') Delete Books
+    br
+    br
+    a(href='http://localhost:3000/reports') Generate Reports

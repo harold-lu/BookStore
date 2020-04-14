@@ -1,0 +1,25 @@
+html
+  head
+    title LIB ADMIN Homepage
+
+
+body
+  h1 Welcome to Look Inna Book
+  h2 Admin Homepage
+
+  if(!admin)
+    p="Please login with administrator credentials to proceed."
+    br
+    a(href='http://localhost:3000/admin') Login
+  else
+    p="Logged in as ADMIN"
+    a(href='http://localhost:3000/adminlogout') Logout
+    br
+    br
+    a(href='http://localhost:3000/deletebook') Delete Books
+    br
+    br
+    a(href='http://localhost:3000/addbook') Add Books
+    br
+    br
+    a(href='http://localhost:3000/reports') Generate Reports
