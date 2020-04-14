@@ -1,0 +1,28 @@
+html
+  head
+    title LIB Author Information
+
+
+body
+  a(href='http://localhost:3000/browse') Browse
+  h1 Welcome to Look Inna Book
+
+  if(!user)
+    a(href='http://localhost:3000/login') Login
+    br
+    br
+    a(href='http://localhost:3000/register') Register
+  else
+    p="Logged in as: " + user
+    a(href="http://localhost:3000/cart") View Cart
+    br
+    br
+    a(href="http://localhost:3000/purchase") View Purchases
+    br
+    br
+    a(href='http://localhost:3000/logout') Logout
+
+  h2="Author: " + q[0].name
+  h4="From: " + q[0].birth_city + ", " + q[0].birth_country
+  br
+  a(href='http://localhost:3000/browse/author/' + q[0].aid, style="font-size:18.72px;font-weight:bolder")="Search books by " + q[0].name

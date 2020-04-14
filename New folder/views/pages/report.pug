@@ -1,0 +1,32 @@
+html
+  head
+    title LIB ADMIN Reports
+
+
+body
+  h1 Welcome to Look Inna Book
+  h2 Business Reports
+
+  if(!admin)
+    p="Please login with administrator credentials to proceed."
+    br
+    a(href='http://localhost:3000/admin') Login
+  else
+    p="Logged in as ADMIN"
+    a(href='http://localhost:3000/adminlogout') Logout
+    br
+    h3 Total Sales
+    p="$" +q[0].sum
+    h3 Expenditure
+    p="$1593.29"
+    h3 Sales by Month
+    if(m[0].sum != 'null')
+      p="Sales in " + month +": " + m[0].sum
+    form(action="/reports", method="post")
+      p="Month: "
+        input(type="text", name="month", required)
+      button(type="submit")="Generate Report"
+    a(href='http://localhost:3000/addbook') Add Books
+    br
+    br
+    a(href='http://localhost:3000/deletebook') Delete Books

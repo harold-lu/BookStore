@@ -1,0 +1,29 @@
+html
+  head
+    title LIB Login
+
+
+body
+  a(href='http://localhost:3000/') Back
+  h1 Welcome to Look Inna Book
+  h2 Your One-stop Shop for All of Your Book Needs!
+  if(user)
+    p="You are already logged in!"
+    a(href='http://localhost:3000/logout') Logout
+  else
+    h3 Login
+    form(action="/login", method="post")
+      p="Username: "
+        input(type="text", name="username")
+        br
+      p="Password: "
+        input(type="password", name="password")
+        br
+      button(type="submit")="Login"
+
+    br
+    br
+    a(href='http://localhost:3000/register') Register
+    br
+    br
+    a(href='http://localhost:3000/browse') Browse Books

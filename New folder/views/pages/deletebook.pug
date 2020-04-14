@@ -1,0 +1,31 @@
+html
+  head
+    title LIB ADMIN Delete Book
+
+
+body
+  h1 Welcome to Look Inna Book
+  h2 Delete Book
+
+  if(!admin)
+    p="Please login with administrator credentials to proceed."
+    br
+    a(href='http://localhost:3000/admin') Login
+  else
+    p="Logged in as ADMIN"
+    a(href='http://localhost:3000/adminlogout') Logout
+    br
+    form(action="/deletebook", method="post")
+      h3 Delete Book by ISBN
+      p="ISBN: "
+        input(type="text", name="isbn", required)
+      button(type="submit")="Delete book"
+    form(action="/deletebook", method="post")
+      h3 Delete Book by Title
+      p="Title: "
+        input(type="text", name="title", required)
+      button(type="submit")="Delete book"
+    a(href='http://localhost:3000/addbook') Add Books
+    br
+    br
+    a(href='http://localhost:3000/reports') Generate Reports

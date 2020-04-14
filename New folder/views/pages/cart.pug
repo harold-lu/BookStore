@@ -1,0 +1,39 @@
+html
+  head
+    title LIB Browse
+
+
+body
+  a(href='http://localhost:3000/browse') Browse
+  h1 Welcome to Look Inna Book
+  h2 Review Your Cart
+
+  if(!user)
+    p="Please login or register to view your cart!"
+    br
+    a(href='http://localhost:3000/login') Login
+    br
+    br
+    a(href='http://localhost:3000/register') Register
+  else
+    p="Logged in as: " + user
+    a(href="http://localhost:3000/purchase") View Purchases
+    br
+    br
+    a(href='http://localhost:3000/logout') Logout
+    br
+    h3 Your Cart:
+    if(!q)
+      p="Your cart is empty!"
+      a(href='http://localhost:3000/browse') Browse Books
+    else
+
+      each book in q
+        p=book.title + " by " + book.name
+      form(action="/checkout", method="post")
+        -let n = 0
+        each book in q
+          input(type="text", name="isbn", value=book.isbn, hidden)
+          input(type="text", name="book", value=book.title + " by " + book.name, hidden)
+          - n = n + 1
+        button(type="submit")="Checkout Items"

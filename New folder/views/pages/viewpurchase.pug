@@ -1,0 +1,31 @@
+html
+  head
+    title LIB Purchases
+
+
+body
+  a(href='http://localhost:3000/browse') Browse
+  h1 Welcome to Look Inna Book
+
+  if(!user)
+    p="Please login or register to proceed!"
+    br
+    a(href='http://localhost:3000/login') Login
+    br
+    br
+    a(href='http://localhost:3000/register') Register
+  else
+    p="Logged in as: " + user
+    a(href='http://localhost:3000/logout') Logout
+    br
+    h3="Purchase: " + q[0].pid +", you bought: "
+    if(q[0].length == 1)
+      p=q[0].title + " by " + q[0].author
+    else
+      each book in q
+        p=book.title + " by " + book.author
+    p="Total: $" + q[0].cost
+
+    form(action="/tracking/"+q[0].tid, method="post")
+      input(type="text", name="tid", value=q[0].tid, hidden)
+      button(type="submit")="Track Order"

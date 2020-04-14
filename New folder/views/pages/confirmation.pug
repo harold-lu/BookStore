@@ -1,0 +1,59 @@
+html
+  head
+    title LIB Confirmation
+
+
+body
+  a(href='http://localhost:3000/browse') Browse
+  h1 Welcome to Look Inna Book
+
+  if(!user)
+    p="Please login or register to proceed!"
+    br
+    a(href='http://localhost:3000/login') Login
+    br
+    br
+    a(href='http://localhost:3000/register') Register
+  else
+    p="Logged in as: " + user
+    a(href='http://localhost:3000/logout') Logout
+    br
+    h3="You are purchasing:"
+    if(q[0].length == 1)
+      p=q
+    else
+      each book in q
+        p=book
+    form(action="/purchase", method="post")
+      h3 Billing Information
+      p="Address: "
+        input(type="text", name="bAddress", required)
+      p="City: "
+        input(type="text", name="bCity", required)
+      p="Country: "
+        input(type="text", name="bCountry", required)
+      p="Card Number: "
+        input(type="text", name="cardNum", required)
+        br
+      p="CCV: "
+        input(type="text", name="ccv", required)
+        br
+      p="Cardholder Name: "
+        input(type="text", name="holderName", required)
+        br
+      p="Expiration Month: "
+        input(type="text", name="expMonth", required)
+        br
+      p="Expiration Year: "
+        input(type="text", name="expYear", required)
+        br
+      h3 Shipping Information
+      p="Address: "
+        input(type="text", name="sAddress", required)
+      p="City: "
+        input(type="text", name="sCity", required)
+      p="Country: "
+        input(type="text", name="sCountry", required)
+      p="Postal Code: "
+        input(type="text", name="postal", required)
+      button(type="submit")="Confirm purchase"
