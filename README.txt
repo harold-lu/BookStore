@@ -16,4 +16,3 @@ As admin
 2. Log in as admin with
 	Username: admin
 	Password: admin
-# COMP3005PROJECT

@@ -169,7 +169,7 @@ async function postbrowse(req, res, next){
     q = await db.query("select isbn, title, name from book natural join written_by natural join author where written_by.aid = author.aid and price >= '" + search+"';");
   }
   else if(searchOption == 'Max No. of Pages' && search != ''){
-    q = await db.query("select isbn, title, name from book natural join written_by natural join author where written_by.aid = author.aid and num_pages like '" + search+"';");
+    q = await db.query("select isbn, title, name from book natural join written_by natural join author where written_by.aid = author.aid and num_pages <='" + search+"';");
   }
   else{
     let x = []

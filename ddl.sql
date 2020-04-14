@@ -27,7 +27,7 @@ create table bank
 	 name 		varchar(50),
 	 city	 	varchar(15),
 	 country 	varchar(15),
-	 primary key (bank_id)
+	 primary key (bid)
 	);
 
 create table publisher
@@ -38,24 +38,7 @@ create table publisher
 	 country 	varchar(15),	
 	 email		varchar(40),
 	 phone 		numeric(11,0),
-	 bank_acc	numeric(11,0),
-	 primary key (id),
-	);
-
-create table written_by
-	(isbn 		varchar(13), 
-	 aid		varchar(9),
-	 primary key (isbn, aid),
-	 foreign key (isbn) references book,
-	 foreign key (aid) references author
-	);
-
-create table published_by
-	(isbn		varchar(13),
-	 pubid		varchar(9),
-	 primary key (isbn, pubid),
-	 foreign key (isbn) references book,
-	 foreign key (pubid) references publisher
+	 primary key (id)
 	);
 
 create table registered_user
@@ -77,19 +60,7 @@ create table registered_user
 	 bill_country 	  varchar(20),
 	 primary key (uid, username) 
 	);
-
-
-create table publisher_bank
-	(bid		varchar(10),
-	 pub_id		varchar(9),
-	 funds		numeric(12,2),
-	 transfer	numeric(9,2),
-	 primary key (bid, pubid),
-	 foreign key (bid) references bank,
-	 foreign key (pubid) references publisher
-	);
-	 
-
+	
 create table purchases
 	(pid		varchar(9),
 	 date		varchar(11),
@@ -98,6 +69,49 @@ create table purchases
 	 primary key (pid)
 	);
 
+
+create table order_tracking
+	(tid		 varchar(12),
+	 depart_time	 varchar(8),
+	 depart_date	 varchar(11),
+	 eta_time	 varchar(8),
+	 eta_date 	 varchar(11),
+	 current_city	 varchar(15),
+	 current_country varchar(15),
+	 dest_address	 varchar(35),
+	 dest_city	 varchar(20), 
+	 dest_country	 varchar(20), 
+	 dest_postalcode varchar(8),
+	 primary key (tid)
+	);
+	
+
+create table written_by
+	(isbn 		varchar(13), 
+	 aid		varchar(9),
+	 primary key (isbn, aid),
+	 foreign key (isbn) references book,
+	 foreign key (aid) references author
+	);
+
+create table published_by
+	(isbn		varchar(13),
+	 pubid		varchar(9),
+	 primary key (isbn, pubid),
+	 foreign key (isbn) references book,
+	 foreign key (pubid) references publisher
+	);
+
+
+create table publisher_bank
+	(bid		varchar(10),
+	 pub_id		varchar(9),
+	 funds		numeric(12,2),
+	 primary key (bid, pubid),
+	 foreign key (bid) references bank,
+	 foreign key (pubid) references publisher
+	);
+	 
 create table books_purchased
 	(pid		varchar(9),
 	 isbn		varchar(13),
@@ -116,20 +130,6 @@ create table user_purchases
 	 foreign key (uid) references registered_user
 	);
 
-create table order_tracking
-	(tid		 varchar(12),
-	 depart_time	 varchar(8),
-	 depart_date	 varchar(11),
-	 eta_time	 varchar(8),
-	 eta_date 	 varchar(11),
-	 current_city	 varchar(15),
-	 current_country varchar(15),
-	 dest_address	 varchar(35),
-	 dest_city	 varchar(20), 
-	 dest_country	 varchar(20), 
-	 dest_postalcode varchar(8),
-	 primary key (tid)
-	);
 
 create table orders
 	(pid 		varchar(9),
