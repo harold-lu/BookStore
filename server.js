@@ -12,11 +12,11 @@ let admin;
 let adminpwd;
 
 //logged in user information, mimicks session
-let user = 'testuser'; //*remove default value after
+let user; //*remove default value after
 let usercart = [];
-let gpid = 400000002; //start at 01
-let guid = 500000002; //start at 01
-let gtid = 600000000002; //start at 01
+let gpid = 400000001; 
+let guid = 500000001; 
+let gtid = 600000000001; 
 
 //View engine
 app.set("view engine", "pug");
