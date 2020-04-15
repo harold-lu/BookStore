@@ -14,9 +14,9 @@ let adminpwd;
 //logged in user information, mimicks session
 let user; //*remove default value after
 let usercart = [];
-let gpid = 400000001; 
-let guid = 500000001; 
-let gtid = 600000000001; 
+let gpid = 400000001;
+let guid = 500000001;
+let gtid = 600000000001;
 
 //View engine
 app.set("view engine", "pug");
@@ -87,11 +87,8 @@ async function postlogin(req, res, next){
   //get id for username, get id for password
   //if the two ids are the same, then successful login
   //change global variable name as
-  console.log(req.body);
   logging = req.body.username;
-  console.log(logging);
   let q = await db.query("select username, password from registered_user where username='"+logging+"';");
-  console.log(q);
   if(q.length == 0){
     res.render('pages/login', {user:user})
   }
@@ -118,9 +115,7 @@ async function postregister(req, res, next){
   //insert into registered user table
   //user table will do the checking, return message indicating if insertion was successful
   register = req.body;
-  console.log(register);
   let s = "insert into registered_user values('"+guid+"', '" + register.username +"', '"+ register.password+"', '"+ register.email + "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);";
-  console.log(s);
   let q = await db.query("insert into registered_user values('"+guid+"', '" + register.username +"', '"+ register.password+"', '"+ register.email + "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);");
   user = register.username;
   guid = guid + 1;
@@ -141,7 +136,6 @@ async function postbrowse(req, res, next){
   let q;
   let searchOption = req.body.searchOption;
   let search = req.body.search;
-  console.log(req.body);
 
   if(searchOption == 'Title' && search != ''){
     q = await db.query("select isbn, title, name from book natural join written_by natural join author where written_by.aid = author.aid and title like '%" + search+"%';");
@@ -185,9 +179,7 @@ async function postbrowse(req, res, next){
 async function viewbook(req, res, next){
   //fix for multiple authors after
   let isbn = req.params.isbn;
-  //console.log(isbn);
   let q = await db.query("select isbn, title, publisher,subtitle, genre, description, rating, num_pages, lang, price, stock, name, aid from book natural join written_by natural join author where written_by.aid = author.aid and isbn='" + isbn+"';");
-  //console.log(q);
   res.render('pages/viewbook', {user:user, q:q});
 }
 
@@ -207,20 +199,17 @@ async function viewpub(req, res, next){
 async function searchauthor(req, res, next){
   let aid = req.params.aid;
   let q = await db.query("select isbn, title, name from book natural join written_by natural join author where written_by.aid = author.aid and aid='" + aid+"';");
-  console.log(q[0]);
   res.render('pages/browse', {postbrowse:true, searchTitle:['Author', q[0].name], user:user, q:q});
 }
 
 async function searchpub(req, res, next){
   let pub = req.params.pub;
-  console.log(pub);
   let q = await db.query("select isbn, title, name from book natural join written_by natural join author where written_by.aid = author.aid and publisher='" + pub+"';");
   res.render('pages/browse', {postbrowse:true, searchTitle:['Publisher', pub], user:user, q:q});
 }
 
 async function searchgenre(req, res, next){
   let genre = req.params.genre;
-  console.log(genre);
   let q = await db.query("select isbn, title, name, genre from book natural join written_by natural join author where written_by.aid = author.aid and genre='" + genre+"';");
   res.render('pages/browse', {postbrowse:true, searchTitle:['Genre', genre], user:user, q:q});
 }
@@ -234,18 +223,13 @@ function cart(req, res, next){
 
 async function addcart(req, res, next){
   isbn = req.body.isbn;
-  //console.log("this is isbn: " + isbn)
   q = []
   let result;
   if(!(usercart.includes(isbn))){
     usercart.push(isbn);
   }
-  //console.log(usercart.length);
   for(let i = 0; i<usercart.length; i++){
     result = await db.query("select isbn, title, name from book natural join written_by natural join author where written_by.aid = author.aid and isbn='" + usercart[i]+"';");
-    // console.log("+++++++++++++++++++++++++++++++++++++++++++++++++")
-    // console.log(result[0])
-    // console.log("+++++++++++++++++++++++++++++++++++++++++++++++++")
     q.push(result[0]);
   }
   res.render('pages/cart', {user:user, q:q})
@@ -256,14 +240,10 @@ async function checkout(req, res, next){
   let cost;
   let uid = await db.query("select distinct uid from registered_user where username='"+user+"';");
   uid = uid[0].uid
-  console.log(uid);
   let isbn = req.body.isbn;
-  console.log(isbn);
-  console.log(req.body);
   let b = req.body.book;
 
   let q;
-  console.log(b.length);
   if(!(Array.isArray(b))){
     q = b
     insert = q.split(" by ");
@@ -283,18 +263,10 @@ async function checkout(req, res, next){
       insert = newinsert;
     }
     coststring += " title='" + insert[0].replace("'","''") + "';";
-    console.log(coststring);
     cost = await db.query(coststring);
     cost = cost[0].sum
-    console.log(cost);
-    let s = "insert into purchases values('"+gpid+"', 'APR/11/2020', '16:20:00', '" +cost + "');";
-    console.log(s);
     let insertIntobooks_purchased = await db.query("insert into purchases values('"+gpid+"', 'APR/11/2020', '16:20:00', '" +cost + "');");
-    s = "insert into user_purchases values('"+gpid+"', '" +uid+ "');";
-    console.log(s);
     let insertIntoUserPurchase = await db.query("insert into user_purchases values('"+gpid+"', '" +uid+ "');");
-    s = "insert into books_purchased values('"+gpid+"', '" +isbn+ "');";
-    console.log(s);
     let query = await db.query("insert into books_purchased values('"+gpid+"', '" +isbn+ "', '" + insert[0].replace("'", "''") + "', '" + insert[1].replace("'", "''") + "');");
 
   }
@@ -329,14 +301,12 @@ async function checkout(req, res, next){
     }
     coststring += ";";
 
-    console.log(coststring);
     cost = await db.query(coststring);
     cost = cost[0].sum
     let insertIntobooks_purchased = await db.query("insert into purchases values('"+gpid+"', 'APR/11/2020', '16:20:00', '" +cost + "');");
 
     let insertIntoUserPurchase = await db.query("insert into user_purchases values('"+gpid+"', '" +uid+ "');");
     for(let i = 0; i<arr.length; i++){
-      console.log(isbn[i]);
       let query = await db.query("insert into books_purchased values('"+gpid+"', '" +isbn[i]+ "', '"+arr[i][0].replace("'", "''") + "', '" + arr[i][1].replace("'", "''") +"');");
     }
 
@@ -357,35 +327,24 @@ async function purchase(req, res, next){
   gpid = gpid + 1;
   gtid = gtid + 1;
   res.render('pages/purchase', {user:user, q:q})
-
-
-  //let s = "update registered_user set bill_address='" + info.bAddress + "', bill_city='" + info.bCity + "', bill_country='" + info.bCountry + "', card_number='" +info.cardNum + "', ccv='" + info.ccv + "', cardholdername='" +info.holderName + "', exp_month='" + info.expMonth + "', exp_year='" +info.expYear + "', address='"+ info.sAddress + "', city='" +info.sCity + "', country='"+ info.sCountry + "', postal_code='"+ info.postal + "' where uid ='"+uid+"';";
-  //s = "insert into order_tracking values('"+gtid+"', '17:21:40', 'APR/11/2020', '19:56:20', 'APR/17/2020', 'Kingston', 'Canada', '" +info.sAddress+"', '" + info.sCity + "', '" + info.sCountry + "', '" + info.postal + "');";
-  //console.log(s);
-  //s = "insert into orders('"+gpid+"', '" + gtid + "');";
-  //console.log(s);
 }
 
 //app.get
 async function allpurchase(req, res, next){
   let q = await db.query("select pid from purchases natural join user_purchases natural join registered_user where username ='" + user+"';");
-  console.log(q);
   res.render('pages/purchase', {user:user, q:q})
 }
 
 async function viewpurchase(req, res, next){
   let pid = req.params.pid;
   let q = await db.query("select pid, tid, title, author, cost from registered_user natural join purchases natural join books_purchased natural join orders where books_purchased.pid = purchases.pid and username='" + user+"' and pid='" + pid +"';");
-  console.log(q);
   res.render('pages/viewpurchase', {user:user, q:q});
 }
 
 async function tracking(req, res, next){
   let tid = req.body.tid;
   let q = await db.query("select distinct * from orders natural join order_tracking where tid='" + tid+"';");
-  console.log(q);
   res.render('pages/tracking', {user:user, q:q});
-
 }
 
 ///----------------------------------------------------------------- ADMIN PATHS ------------------------------------------------------------------
@@ -398,7 +357,6 @@ function postadminlogin(req, res, next){
   //get id for username, get id for password
   //if the two ids are the same, then successful login
   //change global variable name as
-  console.log(req.body);
   if(req.body.username == 'admin' && req.body.password =='admin'){
     admin = 'admin';
     res.render('pages/adminhome', {admin:admin, adminpwd:adminpwd})
@@ -422,19 +380,10 @@ function addbookpage(req, res, next){
 }
 
 async function addbook(req, res, next){
-  console.log(req.body);
   let info = req.body;
   let pubid = await db.query("select pubid from publisher where name='"+info.publisher+"';");
   let aid = await db.query("select aid from author where name='"+info.author+"';");
-  console.log(pubid);
-  console.log(aid);
 
-  let s = "insert into book values('"+info.isbn+"', '" +info.title+"', '" + info.publisher + "', '" + info.subtitle + "', '" +info.genre+"', '" +info.description+"', '" +info.rating+"', '" +info.num_pages+"', '" +info.lang+"', '" +info.price+"', '" +info.percent_pub+"', '" + info.stock + "');";
-  console.log(s);
-  s = "insert into published_by values('"+info.isbn+"', '" + pubid[0].pubid + "');";
-  console.log(s);
-  s="insert into written_by values('"+info.isbn+"', '" + aid[0].aid + "');";
-  console.log(s);
   let insertIntoBook = await db.query("insert into book values('"+info.isbn+"', '" +(info.title).replace("'","''")+"', '" + info.publisher + "', '" + (info.subtitle).replace("'","''") + "', '" +(info.genre).replace("'","''")+"', '" +(info.description).replace("'","''")+"', '" +info.rating+"', '" +info.num_pages+"', '" +info.lang+"', '" +info.price+"', '" +info.percent_pub+"', '" + info.stock + "');");
   let insertIntoPublished = await db.query("insert into published_by values('"+info.isbn+"', '" + pubid[0].pubid + "');");
   let insertIntoWritten = await db.query("insert into written_by values('"+info.isbn+"', '" + aid[0].aid + "');");
@@ -450,14 +399,12 @@ async function deletebook(req, res, next){
   let q;
   if(info.title){
     s = "select isbn from book where title='"+info.title+"');";
-    console.log(s);
     q = await db.query("select isbn from book where title='"+(info.title).replace("'", "''")+"';");
     q=q[0].isbn;
   }
   else{
     q=info.isbn;
   }
-  console.log(q);
   let deleteFromPublished = await db.query("delete from published_by where isbn='"+q+"';");
   let deleteFromWritten = await db.query("delete from written_by where isbn='"+q+"';");
   let deleteFromBook = await db.query("delete from book where isbn='"+q+"';");
@@ -466,7 +413,6 @@ async function deletebook(req, res, next){
 
 async function reportpage(req, res, next){
   let q = await db.query("select sum(cost) from purchases;");
-  console.log(q);
   let m = [{sum:'null'}];
   res.render('pages/report', {admin:admin, adminpwd:adminpwd, q:q, m:m});
 }
@@ -474,13 +420,10 @@ async function reportpage(req, res, next){
 async function reports(req, res, next){
   let q = await db.query("select sum(cost) from purchases;");
   let info=req.body;
-  console.log(info);
-  console.log(q);
   let m = await db.query("select sum(cost) from purchases where date like '%" + info.month+"%';");
   if(m[0].sum == null){
     m=[{sum:'null'}];
   }
-  console.log(m);
   res.render('pages/report', {admin:admin, adminpwd:adminpwd, q:q, m:m, month:info.month});
 }
 ///----------------------------------------------------------------- POSTGRESQL DB INITIALIZER ------------------------------------------------------------------
