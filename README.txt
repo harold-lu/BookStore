@@ -1,7 +1,4 @@
 Name: 		Harold Lu
-Student number: 100974115
-
-COMP3005 PROJECT
 
 To run
 1. In the command line, type in: npm install
